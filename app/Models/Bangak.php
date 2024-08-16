@@ -57,4 +57,5 @@ class Bangak extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
 }

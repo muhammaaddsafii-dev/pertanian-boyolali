@@ -133,12 +133,12 @@ class BangakResource extends Resource
                     ->label('Kecamatan')
                     ->sortable()
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('DESA')
                     ->label('Desa')
                     ->sortable()
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('DNOP')
                     ->label('DNOP')
                     ->sortable()
@@ -148,9 +148,9 @@ class BangakResource extends Resource
                     ->label('Penggunaan Lahan')
                     ->sortable()
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('ERDKK')
-                    ->label('Nama Pemilik')
+                    ->label('ERDKK')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -168,7 +168,7 @@ class BangakResource extends Resource
                     ->label('Pemilik')
                     ->sortable()
                     ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: false),
                 Tables\Columns\TextColumn::make('NIK_2')
                     ->label('NIK Anggota 1')
                     ->sortable()
@@ -355,4 +355,6 @@ class BangakResource extends Resource
     {
         return __('Bangak');
     }
+
+    protected static bool $shouldRegisterNavigation = false;
 }

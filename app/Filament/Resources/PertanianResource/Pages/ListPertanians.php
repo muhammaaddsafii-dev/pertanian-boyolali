@@ -1,16 +1,23 @@
 <?php
 
-namespace App\Filament\Resources\DukuhResource\Pages;
+namespace App\Filament\Resources\PertanianResource\Pages;
 
-use App\Filament\Resources\DukuhResource;
+use App\Filament\Resources\PertanianResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Forms;
 use Filament\Pages\Actions\ButtonAction;
+use App\Filament\Resources\BangakResource;
 
-class ListDukuhs extends ListRecords
+
+class ListPertanians extends ListRecords
 {
-    protected static string $resource = DukuhResource::class;
+    protected static string $resource = PertanianResource::class;
+
+    public function mount(): void
+    {
+        $this->redirect(BangakResource::getUrl('index'));
+    }
 
     protected function getHeaderActions(): array
     {

@@ -24,8 +24,8 @@ class PemilikDukuhResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('PMLK')->label('Pemilik')->nullable(),
-                Forms\Components\TextInput::make('NIK_2')->label('NIK 2')->nullable(),
-                Forms\Components\TextInput::make('ALMT_2')->label('Alamat 2')->nullable(),
+                Forms\Components\TextInput::make('NIK_2')->label('NIK Pemilik')->nullable(),
+                Forms\Components\TextInput::make('ALMT_2')->label('Alamat Pemilik')->nullable(),
             ]);
     }
 

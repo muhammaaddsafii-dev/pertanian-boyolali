@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\TanjungSariUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,13 @@ class PenyewaTanjungSari extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($penyewaTanjungsari) {
+            event(new TanjungSariUpdated($penyewaTanjungsari, 'PenyewaTanjungSari'));
+        });
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\NgaruAruUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,13 @@ class PenggarapNgaruAru extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($penggarapNgaru_aru) {
+            event(new NgaruAruUpdated($penggarapNgaru_aru, 'PenggarapNgaruAru'));
+        });
+    }
 }

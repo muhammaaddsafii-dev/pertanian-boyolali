@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\NgaruAruUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,13 @@ class ERDKKNgaruAru extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($erdkkNgaru_aru) {
+            event(new NgaruAruUpdated($erdkkNgaru_aru, 'ERDKKNgaruAru'));
+        });
+    }
 }

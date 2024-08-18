@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\CangkringanUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,13 @@ class PenggarapCangkringan extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($penggarapCangkringan) {
+            event(new CangkringanUpdated($penggarapCangkringan, 'PenggarapCangkringan'));
+        });
+    }
 }

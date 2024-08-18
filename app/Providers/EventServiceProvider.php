@@ -9,9 +9,11 @@ use Illuminate\Support\Facades\Event;
 use App\Events\BangakUpdated; // Impor event yang baru dibuat
 use App\Events\BanyudonoUpdated;
 use App\Events\BatanUpdated;
+use App\Events\CangkringanUpdated;
 use App\Listeners\UpdateBangakGeojson; // Impor listener yang baru dibuat
 use App\Listeners\UpdateBanyudonoGeojson;
 use App\Listeners\UpdateBatanGeojson;
+use App\Listeners\UpdateCangkringanGeojson;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,10 @@ class EventServiceProvider extends ServiceProvider
 
         BatanUpdated::class => [ // Daftarkan event baru
             UpdateBatanGeojson::class, // Daftarkan listener untuk event ini
+        ],
+
+        CangkringanUpdated::class => [ // Daftarkan event baru
+            UpdateCangkringanGeojson::class, // Daftarkan listener untuk event ini
         ],
     ];
 

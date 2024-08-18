@@ -9,7 +9,7 @@ class PenyewaTrayu extends Model
 {
     use HasFactory;
 
-    protected $table = 'bangak';
+    protected $table = 'trayu';
 
     protected $fillable = [
         'KECAMATAN',

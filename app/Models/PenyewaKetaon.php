@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\KetaonUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,7 @@ class PenyewaKetaon extends Model
 {
     use HasFactory;
 
-    protected $table = 'bangak';
+    protected $table = 'ketaon';
 
     protected $fillable = [
         'KECAMATAN',
@@ -57,4 +58,13 @@ class PenyewaKetaon extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($penyewaKetaon) {
+            event(new KetaonUpdated($penyewaKetaon, 'PenyewaKetaon'));
+        });
+    }
 }

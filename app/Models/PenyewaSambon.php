@@ -9,7 +9,7 @@ class PenyewaSambon extends Model
 {
     use HasFactory;
 
-    protected $table = 'bangak';
+    protected $table = 'sambon';
 
     protected $fillable = [
         'KECAMATAN',

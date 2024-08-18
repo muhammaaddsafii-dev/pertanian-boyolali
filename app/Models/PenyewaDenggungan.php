@@ -10,7 +10,7 @@ class PenyewaDenggungan extends Model
 {
     use HasFactory;
 
-    protected $table = 'bangak';
+    protected $table = 'denggungan';
 
     protected $fillable = [
         'KECAMATAN',

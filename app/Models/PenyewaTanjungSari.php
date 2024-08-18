@@ -9,7 +9,7 @@ class PenyewaTanjungSari extends Model
 {
     use HasFactory;
 
-    protected $table = 'bangak';
+    protected $table = 'tanjungsari';
 
     protected $fillable = [
         'KECAMATAN',

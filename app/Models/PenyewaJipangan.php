@@ -10,7 +10,7 @@ class PenyewaJipangan extends Model
 {
     use HasFactory;
 
-    protected $table = 'bangak';
+    protected $table = 'jipangan';
 
     protected $fillable = [
         'KECAMATAN',

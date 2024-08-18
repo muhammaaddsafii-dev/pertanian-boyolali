@@ -9,7 +9,7 @@ class ERDKKTanjungSari extends Model
 {
     use HasFactory;
 
-    protected $table = 'tanjung_sari';
+    protected $table = 'tanjungsari';
 
     protected $fillable = [
         'KECAMATAN',

@@ -46,20 +46,20 @@ class ListPenggaraps extends ListRecords
                 ])
                 ->action(function (array $data) {
                     $resourceMap = [
-                        'bangak' => 'PemilikBangakResource',
-                        'banyudono' => 'PemilikBanyudonoResource',
-                        'batan' => 'PemilikBatanResource',
-                        'cangkringan' => 'PemilikCangkringanResource',
-                        'denggungan' => 'PenmilikDenggunganResource',
-                        'dukuh' => 'PemilikDukuhResource',
-                        'jembungan' => 'PemilikJembunganResource',
-                        'jipangan' => 'PemilikJipanganResource',
-                        'ketaon' => 'PemilikKetaonResource',
-                        'kuwran' => 'PemilikKuwranResource',
-                        'ngaru-aru' => 'PemilikNgaruAruResource',
-                        'sambon' => 'PemilikSambonResource',
-                        'tanjungsari' => 'PemilikTanjungSariResource',
-                        'trayu' => 'PemilikTrayuResource',
+                        'bangak' => 'PenggarapBangakResource',
+                        'banyudono' => 'PenggarapBanyudonoResource',
+                        'batan' => 'PenggarapBatanResource',
+                        'cangkringan' => 'PenggarapCangkringanResource',
+                        'denggungan' => 'PenggarapDenggunganResource',
+                        'dukuh' => 'PenggarapDukuhResource',
+                        'jembungan' => 'PenggarapJembunganResource',
+                        'jipangan' => 'PenggarapJipanganResource',
+                        'ketaon' => 'PenggarapKetaonResource',
+                        'kuwran' => 'PenggarapKuwranResource',
+                        'ngaru-aru' => 'PenggarapNgaruAruResource',
+                        'sambon' => 'PenggarapSambonResource',
+                        'tanjungsari' => 'PenggarapTanjungSariResource',
+                        'trayu' => 'PenggarapTrayuResource',
                     ];
 
                     $selectedResource = $data['resource'] ?? 'bangak'; // Use 'bangak' if no selection is made

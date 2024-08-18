@@ -44,7 +44,7 @@ class ListPemilikKuwrans extends ListRecords
                         'banyudono' => 'PemilikBanyudonoResource',
                         'batan' => 'PemilikBatanResource',
                         'cangkringan' => 'PemilikCangkringanResource',
-                        'denggungan' => 'PenmilikDenggunganResource',
+                        'denggungan' => 'PemilikDenggunganResource',
                         'dukuh' => 'PemilikDukuhResource',
                         'jembungan' => 'PemilikJembunganResource',
                         'jipangan' => 'PemilikJipanganResource',

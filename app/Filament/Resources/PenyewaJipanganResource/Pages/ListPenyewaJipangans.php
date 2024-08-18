@@ -44,7 +44,7 @@ class ListPenyewaJipangans extends ListRecords
                         'banyudono' => 'PenyewaBanyudonoResource',
                         'batan' => 'PenyewaBatanResource',
                         'cangkringan' => 'PenyewaCangkringanResource',
-                        'denggungan' => 'PenmilikDenggunganResource',
+                        'denggungan' => 'PenyewaDenggunganResource',
                         'dukuh' => 'PenyewaDukuhResource',
                         'jembungan' => 'PenyewaJembunganResource',
                         'jipangan' => 'PenyewaJipanganResource',

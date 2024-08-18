@@ -44,7 +44,7 @@ class ListKelompokTaniSambons extends ListRecords
                         'banyudono' => 'KelompokTaniBanyudonoResource',
                         'batan' => 'KelompokTaniBatanResource',
                         'cangkringan' => 'KelompokTaniCangkringanResource',
-                        'denggungan' => 'PenmilikDenggunganResource',
+                        'denggungan' => 'KelompokTaniDenggunganResource',
                         'dukuh' => 'KelompokTaniDukuhResource',
                         'jembungan' => 'KelompokTaniJembunganResource',
                         'jipangan' => 'KelompokTaniJipanganResource',

@@ -50,7 +50,7 @@ class ListERDKKS extends ListRecords
                         'banyudono' => 'ERDKKBanyudonoResource',
                         'batan' => 'ERDKKBatanResource',
                         'cangkringan' => 'ERDKKCangkringanResource',
-                        'denggungan' => 'PenmilikDenggunganResource',
+                        'denggungan' => 'ERDKKDenggunganResource',
                         'dukuh' => 'ERDKKDukuhResource',
                         'jembungan' => 'ERDKKJembunganResource',
                         'jipangan' => 'ERDKKJipanganResource',

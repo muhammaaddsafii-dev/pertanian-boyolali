@@ -11,11 +11,13 @@ use App\Events\BanyudonoUpdated;
 use App\Events\BatanUpdated;
 use App\Events\CangkringanUpdated;
 use App\Events\DenggunganUpdated;
+use App\Events\DukuhUpdated;
 use App\Listeners\UpdateBangakGeojson; // Impor listener yang baru dibuat
 use App\Listeners\UpdateBanyudonoGeojson;
 use App\Listeners\UpdateBatanGeojson;
 use App\Listeners\UpdateCangkringanGeojson;
 use App\Listeners\UpdateDenggunganGeojson;
+use App\Listeners\UpdateDukuhGeojson;
 use App\Models\Denggungan;
 
 class EventServiceProvider extends ServiceProvider
@@ -48,6 +50,10 @@ class EventServiceProvider extends ServiceProvider
 
         DenggunganUpdated::class => [ // Daftarkan event baru
             UpdateDenggunganGeojson::class, // Daftarkan listener untuk event ini
+        ],
+
+        DukuhUpdated::class => [ // Daftarkan event baru
+            UpdateDukuhGeojson::class, // Daftarkan listener untuk event ini
         ],
     ];
 

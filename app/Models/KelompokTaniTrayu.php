@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\TrayuUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,13 @@ class KelompokTaniTrayu extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($kelompoktaniTrayu) {
+            event(new TrayuUpdated($kelompoktaniTrayu, 'KelompokTaniTrayu'));
+        });
+    }
 }

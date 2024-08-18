@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\KuwranUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,4 +58,13 @@ class PemilikKuwran extends Model
         'LUAS' => 'float',
         'JML_PTK' => 'integer',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($pemilikKuwran) {
+            event(new KuwranUpdated($pemilikKuwran, 'PemilikKuwran'));
+        });
+    }
 }

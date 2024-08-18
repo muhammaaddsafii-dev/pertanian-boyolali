@@ -6,6 +6,8 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\BangakUpdated; // Impor event yang baru dibuat
+use App\Listeners\UpdateBangakGeojson; // Impor listener yang baru dibuat
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +19,10 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+
+        BangakUpdated::class => [ // Daftarkan event baru
+            UpdateBangakGeojson::class, // Daftarkan listener untuk event ini
         ],
     ];
 

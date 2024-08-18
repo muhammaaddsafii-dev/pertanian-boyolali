@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\BangakUpdated;
 
 class Bangak extends Model
 {
@@ -58,4 +59,12 @@ class Bangak extends Model
         'JML_PTK' => 'integer',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($bangak) {
+            event(new BangakUpdated($bangak, 'Bangak'));
+        });
+    }
 }

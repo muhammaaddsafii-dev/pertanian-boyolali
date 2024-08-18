@@ -120,7 +120,6 @@ class BangakResource extends Resource
                 Forms\Components\TextInput::make('PR_MT2')->label('Produksi MT2')->numeric()->nullable(),
                 Forms\Components\TextInput::make('PR_MT3')->label('Produksi MT3')->numeric()->nullable(),
                 Forms\Components\TextInput::make('LUAS')->label('Luas')->numeric()->nullable(),
-                Forms\Components\Textarea::make('geometry')->label('Geometry')->nullable(),
             ]);
     }
 
@@ -296,11 +295,6 @@ class BangakResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('LUAS')
                     ->label('Luas')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('geometry')
-                    ->label('Geometry')
                     ->sortable()
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),

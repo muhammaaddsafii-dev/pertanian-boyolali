@@ -348,7 +348,7 @@ class JembunganResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return __('Jeembungan');
+        return __('Jembungan');
     }
 
     public static function getPluralModelLabel(): string

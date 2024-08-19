@@ -2,11 +2,14 @@
 
 namespace App\Filament\Resources\JipanganResource\Pages;
 
+use App\Exports\JipanganExport;
 use App\Filament\Resources\JipanganResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Pages\Actions\ButtonAction;
 use Filament\Forms;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 
 class ListJipangans extends ListRecords
 {
@@ -15,7 +18,18 @@ class ListJipangans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ButtonAction::make('export')
+                ->label('Excel')
+                ->action('export')
+                ->icon('heroicon-o-arrow-down-circle')
+                ->color('success'),
+            ButtonAction::make('downloadGeojson')
+                ->label('GeoJSON')
+                ->action('downloadGeojson')
+                ->icon('heroicon-o-arrow-down-circle')
+                ->color('info'),
             ButtonAction::make('selectResource')
+                ->icon('heroicon-o-bars-4')
                 ->label('Pilih Desa')
                 ->form([
                     Forms\Components\Select::make('resource')
@@ -67,5 +81,27 @@ class ListJipangans extends ListRecords
                 ->modalHeading('Pilih Desa')
                 ->modalButton('Pilih')
         ];
+    }
+
+    public function export()
+    {
+        return Excel::download(new JipanganExport, 'jipangan.xlsx');
+    }
+
+    public function downloadGeojson()
+    {
+        // S3 object key (path to the file in the bucket)
+        $filePath = 'pertanian-boyolali/geojson-files/JIPANGAN.geojson';
+
+        // The filename to be used for the downloaded file
+        $fileName = 'JIPANGAN.geojson';
+
+        // Get the file from S3
+        $fileContent = Storage::disk('s3')->get($filePath);
+
+        // Return the file as a download response
+        return response()->streamDownload(function () use ($fileContent) {
+            echo $fileContent;
+        }, $fileName);
     }
 }

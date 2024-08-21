@@ -7,7 +7,9 @@ use App\Filament\Resources\TanjungSariResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Actions\ButtonAction;
+use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +20,11 @@ class ListTanjungSaris extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ButtonAction::make('importTanjungSari')
+                ->label('Import Tanjung Sari')
+                ->action('importTanjungSari')
+                ->icon('heroicon-o-arrow-path')
+                ->color('danger'),
             ButtonAction::make('export')
                 ->label('Excel')
                 ->action('export')
@@ -103,5 +110,17 @@ class ListTanjungSaris extends ListRecords
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
         }, $fileName);
+    }
+
+    public function importTanjungSari()
+    {
+        Artisan::call('import-tanjungsari');
+
+        // Optionally, you can return a success notification or redirect
+        Notification::make()
+            ->title('Import Selesai')
+            ->body('Tanjung berhasil diimport.')
+            ->success()
+            ->send();
     }
 }

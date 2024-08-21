@@ -7,7 +7,9 @@ use App\Filament\Resources\BatanResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Actions\ButtonAction;
+use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +20,11 @@ class ListBatans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ButtonAction::make('importBatan')
+                ->label('Import Batan')
+                ->action('importBatan')
+                ->icon('heroicon-o-arrow-path')
+                ->color('danger'),
             ButtonAction::make('export')
                 ->label('Excel')
                 ->action('export')
@@ -103,5 +110,17 @@ class ListBatans extends ListRecords
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
         }, $fileName);
+    }
+
+    public function importBatan()
+    {
+        Artisan::call('import-batan');
+
+        // Optionally, you can return a success notification or redirect
+        Notification::make()
+            ->title('Import Selesai')
+            ->body('Batan berhasil diimport.')
+            ->success()
+            ->send();
     }
 }

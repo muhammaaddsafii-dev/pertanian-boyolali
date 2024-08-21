@@ -8,6 +8,8 @@ use Filament\Resources\Pages\ListRecords;
 use Filament\Pages\Actions\ButtonAction;
 use Filament\Forms;
 use App\Exports\BangakExport;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +20,11 @@ class ListBangaks extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ButtonAction::make('importBangak')
+                ->label('Import Bangak')
+                ->action('importBangak')
+                ->icon('heroicon-o-arrow-path')
+                ->color('danger'),
             ButtonAction::make('export')
                 ->label('Excel')
                 ->action('export')
@@ -103,5 +110,17 @@ class ListBangaks extends ListRecords
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
         }, $fileName);
+    }
+
+    public function importBangak()
+    {
+        Artisan::call('import-bangak');
+
+        // Optionally, you can return a success notification or redirect
+        Notification::make()
+            ->title('Import Selesai')
+            ->body('Bangak berhasil diimport.')
+            ->success()
+            ->send();
     }
 }

@@ -8,6 +8,8 @@ use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Pages\Actions\ButtonAction;
 use Filament\Forms;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +20,11 @@ class ListJipangans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ButtonAction::make('importJipangan')
+                ->label('Import Jipangan')
+                ->action('importJipangan')
+                ->icon('heroicon-o-arrow-path')
+                ->color('danger'),
             ButtonAction::make('export')
                 ->label('Excel')
                 ->action('export')
@@ -103,5 +110,17 @@ class ListJipangans extends ListRecords
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
         }, $fileName);
+    }
+
+    public function importJipangan()
+    {
+        Artisan::call('import-jipangan');
+
+        // Optionally, you can return a success notification or redirect
+        Notification::make()
+            ->title('Import Selesai')
+            ->body('Jipangan berhasil diimport.')
+            ->success()
+            ->send();
     }
 }

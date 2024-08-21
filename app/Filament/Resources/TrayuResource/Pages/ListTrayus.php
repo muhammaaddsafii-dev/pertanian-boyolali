@@ -7,7 +7,9 @@ use App\Filament\Resources\TrayuResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Filament\Pages\Actions\ButtonAction;
+use Illuminate\Support\Facades\Artisan;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,6 +20,11 @@ class ListTrayus extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ButtonAction::make('importTrayu')
+                ->label('Import Trayu')
+                ->action('importTrayu')
+                ->icon('heroicon-o-arrow-path')
+                ->color('danger'),
             ButtonAction::make('export')
                 ->label('Excel')
                 ->action('export')
@@ -103,5 +110,17 @@ class ListTrayus extends ListRecords
         return response()->streamDownload(function () use ($fileContent) {
             echo $fileContent;
         }, $fileName);
+    }
+
+    public function importTrayu()
+    {
+        Artisan::call('import-trayu');
+
+        // Optionally, you can return a success notification or redirect
+        Notification::make()
+            ->title('Import Selesai')
+            ->body('Trayu berhasil diimport.')
+            ->success()
+            ->send();
     }
 }

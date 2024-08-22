@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\SambonUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Sambon extends Model
 {
@@ -64,6 +65,20 @@ class Sambon extends Model
         parent::boot();
 
         static::updated(function ($sambon) {
+            $changes = $sambon->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $sambon->fillable)) {
+                    SambonLog::create([
+                        'sambon_id' => $sambon->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $sambon->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new SambonUpdated($sambon, 'Sambon'));
         });
     }

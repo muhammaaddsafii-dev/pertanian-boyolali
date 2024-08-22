@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\DukuhUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Dukuh extends Model
 {
@@ -64,6 +65,20 @@ class Dukuh extends Model
         parent::boot();
 
         static::updated(function ($dukuh) {
+            $changes = $dukuh->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $dukuh->fillable)) {
+                    DukuhLog::create([
+                        'dukuh_id' => $dukuh->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $dukuh->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new DukuhUpdated($dukuh, 'Dukuh'));
         });
     }

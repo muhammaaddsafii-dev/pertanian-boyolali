@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\JipanganUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Jipangan extends Model
 {
@@ -64,6 +65,20 @@ class Jipangan extends Model
         parent::boot();
 
         static::updated(function ($jipangan) {
+            $changes = $jipangan->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $jipangan->fillable)) {
+                    JipanganLog::create([
+                        'jipangan_id' => $jipangan->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $jipangan->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new JipanganUpdated($jipangan, 'Jipangan'));
         });
     }

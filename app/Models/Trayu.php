@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\TrayuUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Trayu extends Model
 {
@@ -64,6 +65,20 @@ class Trayu extends Model
         parent::boot();
 
         static::updated(function ($trayu) {
+            $changes = $trayu->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $trayu->fillable)) {
+                    TrayuLog::create([
+                        'trayu_id' => $trayu->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $trayu->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new TrayuUpdated($trayu, 'Trayu'));
         });
     }

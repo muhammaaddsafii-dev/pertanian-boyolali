@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\CangkringanUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Cangkringan extends Model
 {
@@ -64,6 +65,19 @@ class Cangkringan extends Model
         parent::boot();
 
         static::updated(function ($cangkringan) {
+            $changes = $cangkringan->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $cangkringan->fillable)) {
+                    CangkringanLog::create([
+                        'cangkringan_id' => $cangkringan->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $cangkringan->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
             event(new CangkringanUpdated($cangkringan, 'Cangkringan'));
         });
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\BangakUpdated;
+use Illuminate\Support\Facades\Auth;
 
 class Bangak extends Model
 {
@@ -59,11 +60,34 @@ class Bangak extends Model
         'JML_PTK' => 'integer',
     ];
 
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::updated(function ($bangak) {
+    //         event(new BangakUpdated($bangak, 'Bangak'));
+    //     });
+    // }
+
     protected static function boot()
     {
         parent::boot();
 
         static::updated(function ($bangak) {
+            $changes = $bangak->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $bangak->fillable)) {
+                    BangakLog::create([
+                        'bangak_id' => $bangak->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $bangak->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new BangakUpdated($bangak, 'Bangak'));
         });
     }

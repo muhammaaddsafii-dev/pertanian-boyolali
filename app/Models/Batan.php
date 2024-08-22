@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\BatanUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Batan extends Model
 {
@@ -64,6 +65,20 @@ class Batan extends Model
         parent::boot();
 
         static::updated(function ($batan) {
+            $changes = $batan->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $batan->fillable)) {
+                    BatanLog::create([
+                        'batan_id' => $batan->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $batan->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new BatanUpdated($batan, 'Batan'));
         });
     }

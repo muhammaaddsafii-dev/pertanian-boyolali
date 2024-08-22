@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\TanjungSariUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class TanjungSari extends Model
 {
@@ -64,6 +65,19 @@ class TanjungSari extends Model
         parent::boot();
 
         static::updated(function ($tanjungsari) {
+            $changes = $tanjungsari->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $tanjungsari->fillable)) {
+                    TanjungSariLog::create([
+                        'tanjungsari_id' => $tanjungsari->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $tanjungsari->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
             event(new TanjungSariUpdated($tanjungsari, 'TanjungSari'));
         });
     }

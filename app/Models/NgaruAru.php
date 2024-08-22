@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\NgaruAruUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class NgaruAru extends Model
 {
@@ -64,6 +65,20 @@ class NgaruAru extends Model
         parent::boot();
 
         static::updated(function ($ngaru_aru) {
+            $changes = $ngaru_aru->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $ngaru_aru->fillable)) {
+                    NgaruAruLog::create([
+                        'ngaru_aru_id' => $ngaru_aru->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $ngaru_aru->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new NgaruAruUpdated($ngaru_aru, 'NgaruAru'));
         });
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\DenggunganUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Denggungan extends Model
 {
@@ -64,6 +65,20 @@ class Denggungan extends Model
         parent::boot();
 
         static::updated(function ($denggungan) {
+
+            $changes = $denggungan->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $denggungan->fillable)) {
+                    DenggunganLog::create([
+                        'denggungan_id' => $denggungan->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $denggungan->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
             event(new DenggunganUpdated($denggungan, 'Denggungan'));
         });
     }

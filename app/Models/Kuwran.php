@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\KuwranUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Kuwran extends Model
 {
@@ -64,6 +65,20 @@ class Kuwran extends Model
         parent::boot();
 
         static::updated(function ($kuwran) {
+            $changes = $kuwran->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $kuwran->fillable)) {
+                    KuwranLog::create([
+                        'kuwran_id' => $kuwran->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $kuwran->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new KuwranUpdated($kuwran, 'Kuwran'));
         });
     }

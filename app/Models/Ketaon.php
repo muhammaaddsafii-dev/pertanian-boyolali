@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\KetaonUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Ketaon extends Model
 {
@@ -64,6 +65,20 @@ class Ketaon extends Model
         parent::boot();
 
         static::updated(function ($ketaon) {
+            $changes = $ketaon->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $ketaon->fillable)) {
+                    KetaonLog::create([
+                        'ketaon_id' => $ketaon->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $ketaon->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new KetaonUpdated($ketaon, 'Ketaon'));
         });
     }

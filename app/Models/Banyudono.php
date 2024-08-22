@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\BanyudonoUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Banyudono extends Model
 {
@@ -64,6 +65,20 @@ class Banyudono extends Model
         parent::boot();
 
         static::updated(function ($banyudono) {
+            $changes = $banyudono->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $banyudono->fillable)) {
+                    BanyudonoLog::create([
+                        'banyudono_id' => $banyudono->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $banyudono->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new BanyudonoUpdated($banyudono, 'Banyudono'));
         });
     }

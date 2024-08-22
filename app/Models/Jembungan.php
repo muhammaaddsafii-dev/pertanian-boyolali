@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\JembunganUpdated;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Jembungan extends Model
 {
@@ -64,6 +65,20 @@ class Jembungan extends Model
         parent::boot();
 
         static::updated(function ($jembungan) {
+            $changes = $jembungan->getChanges();
+
+            foreach ($changes as $field => $newValue) {
+                if (in_array($field, $jembungan->fillable)) {
+                    JembunganLog::create([
+                        'jembungan_id' => $jembungan->id,
+                        'user_id' => Auth::id(),
+                        'changed_field' => $field,
+                        'old_value' => $jembungan->getOriginal($field),
+                        'new_value' => $newValue,
+                    ]);
+                }
+            }
+
             event(new JembunganUpdated($jembungan, 'Jembungan'));
         });
     }

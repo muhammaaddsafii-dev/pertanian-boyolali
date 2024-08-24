@@ -1,0 +1,89 @@
+.scrollable-menu {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+*.info {
+  padding: 6px 8px;
+  font: 12px/14px Arial, Helvetica, sans-serif;
+  background: white;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.info h4 {
+  margin: 0 0 5px;
+  color: rgb(0, 0, 0);
+  font-weight: 700;
+  font-size: medium;
+}
+
+.leaflet-control-layers-list {
+  max-height: 350px;
+  width: 170px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.leaflet-control-layers label {
+  display: flex;
+  align-items: center;
+}
+
+.leaflet-control-layers img {
+  margin-right: 5px;
+  width: 15px;
+  height: 12px;
+}
+
+.leaflet-popup-content {
+  max-width: auto;
+  max-height: 150px;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+.leaflet-popup-content {
+  margin: 10px;
+  padding: 10px;
+  line-height: 1.4;
+  font-size: smaller;
+}
+
+.search-container {
+  background: transparent;
+}
+
+.search-icon-btn {
+  width: 34px;
+  height: 34px;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.search-icon-btn:hover {
+  background: #c1c1c1;
+}
+
+.search-icon-btn.active {
+  background: #007bff;
+  color: white;
+}
+
+.search-controls.hidden {
+  display: none;
+}
+
+#searchControls .leaflet-control-search {
+  box-shadow: none;
+  margin: 1px;
+}

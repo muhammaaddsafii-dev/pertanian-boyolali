@@ -27,7 +27,7 @@ class MapResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('nama_desa')->label('Nama Desa')->nullable(),
             ]);
     }
 
@@ -35,17 +35,22 @@ class MapResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('nama_desa')
+                    ->label('Nama Desa')
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('viewmap')
+                    ->label('View Map')
+                    ->url(fn($record) => route('maps.view', ['desa' => $record->nama_desa]))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    // Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
